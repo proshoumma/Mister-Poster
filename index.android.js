@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { AppRegistry } from 'react-native'
 
-import App from './src/app'
+import AppStorage from './src/app_storage'
 
 class MisterPoster extends Component {
   constructor(props) {
@@ -10,7 +10,7 @@ class MisterPoster extends Component {
 
   render() {
     return (
-      <App />
+      <AppStorage />
     )
   }
 }

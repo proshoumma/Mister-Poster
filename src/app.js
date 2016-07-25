@@ -1,12 +1,8 @@
 import React, { Component } from 'react'
 import {
   Text,
-  View,
-  AppRegistry
+  View
 } from 'react-native'
-import { Provider } from 'react-redux'
-import { createStore, applyMiddleware } from 'redux'
-import * as storage from 'redux-storage'
 
 export default class App extends Component {
   constructor(props) {
@@ -17,7 +13,7 @@ export default class App extends Component {
     return (
       <View>
         <Text>
-          Hello World, it is awesome!!!
+          Storage Configured!!!
         </Text>
       </View>
     )
