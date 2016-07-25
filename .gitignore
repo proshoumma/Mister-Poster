@@ -39,7 +39,3 @@ buck-out/
 \.buckd/
 android/app/libs
 android/keystores/debug.keystore
-
-# remove iOS stuffs
-index.ios.js
-ios
