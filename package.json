@@ -6,7 +6,12 @@
     "start": "node node_modules/react-native/local-cli/cli.js start"
   },
   "dependencies": {
+    "lodash": "^4.13.1",
     "react": "15.2.1",
-    "react-native": "0.30.0"
+    "react-native": "0.30.0",
+    "react-native-vector-icons": "^2.0.3",
+    "redux": "^3.5.2",
+    "redux-storage": "^4.0.1",
+    "redux-storage-engine-reactnativeasyncstorage": "^1.0.1"
   }
 }
