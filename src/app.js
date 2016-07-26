@@ -1,8 +1,22 @@
+/**
+ * this is the main application component
+ * it is used to configure the navigator
+ */
+
 import React, { Component } from 'react'
 import {
-  Text,
-  View
+  Navigator
 } from 'react-native'
+
+// import the login screen container
+// to add it as the first component to render
+import LoginScreen from './containers/login_screen'
+
+// base route stack to render
+const routes = [
+  { view: LoginScreen }
+]
+
 
 export default class App extends Component {
   constructor(props) {
@@ -11,11 +25,21 @@ export default class App extends Component {
 
   render() {
     return (
-      <View>
-        <Text>
-          Storage Configured!!!
-        </Text>
-      </View>
+      <Navigator
+        style={{ flex: 1 }}
+        ref='nav'
+        initialRouteStack={routes}
+        renderScene={this.renderScene}
+        configureScene={this.configureScene}
+      />
     )
+  }
+
+  renderScene(route, navigator) {
+    return <route.view navigator={navigator} {...route.passProps}/>
+  }
+
+  configureScene(route, routeStack) {
+    return Navigator.SceneConfigs.FloatFromRight
   }
 }
