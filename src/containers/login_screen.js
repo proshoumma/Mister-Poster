@@ -9,6 +9,8 @@ import {
   TouchableOpacity,
   StyleSheet
 } from 'react-native'
+import * as Animatable from 'react-native-animatable'
+import { getColor } from '../components/config'
 
 import Background from '../components/background'
 import LogoCircle from '../components/logo_circle'
@@ -22,10 +24,10 @@ export default class LoginScreen extends Component {
     return (
       <View style={styles.container}>
         <Background imgSrouce={require('../assets/images/cat-image-home-screen.jpg')}/>
-        <View style={styles.logoContainer}>
+        <Animatable.View animation="bounceInDown" style={styles.logoContainer} delay={500}>
           <LogoCircle />
-        </View>
-        <View style={styles.loginBoxContainer}>
+        </Animatable.View>
+        <Animatable.View animation="bounceInUp" style={styles.loginBoxContainer} delay={500}>
           <Text style={styles.textLogo}>Mister Poster</Text>
           <TouchableOpacity>
             <View style={styles.loginBtn}>
@@ -34,7 +36,7 @@ export default class LoginScreen extends Component {
               </Text>
             </View>
           </TouchableOpacity>
-        </View>
+        </Animatable.View>
       </View>
     )
   }
@@ -73,6 +75,7 @@ const styles = StyleSheet.create({
   },
   loginBtnTxt: {
     fontFamily: 'Roboto-Bold',
-    fontSize: 12
+    fontSize: 12,
+    color: getColor()
   }
 })

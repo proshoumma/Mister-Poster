@@ -9,6 +9,7 @@ import {
   Text,
   StyleSheet
 } from 'react-native'
+import { getColor } from './config'
 
 export default class LogoCircle extends Component {
   constructor(props) {
@@ -18,9 +19,7 @@ export default class LogoCircle extends Component {
   render() {
     return (
       <View style={styles.logoContainer}>
-        <Text style={styles.logoText}>
-          MP
-        </Text>
+        <Text style={styles.logoText}>MP</Text>
       </View>
     )
   }
@@ -38,6 +37,9 @@ const styles = StyleSheet.create({
   },
   logoText : {
     fontSize: 80,
-    fontFamily: 'MagmaWave'
+    fontFamily: 'MagmaWave',
+    color: getColor(),
+    marginTop: 5,
+    marginLeft: 5
   }
 })

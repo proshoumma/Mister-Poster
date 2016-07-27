@@ -1,6 +1,7 @@
 /**
  * this is the main application component
  * it is used to configure the navigator
+ * and lock to screen to portrait mode only
  */
 
 import React, { Component } from 'react'
