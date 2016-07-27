@@ -17,7 +17,6 @@ const routes = [
   { view: LoginScreen }
 ]
 
-
 export default class App extends Component {
   constructor(props) {
     super(props)
@@ -27,7 +26,6 @@ export default class App extends Component {
     return (
       <Navigator
         style={{ flex: 1 }}
-        ref='nav'
         initialRouteStack={routes}
         renderScene={this.renderScene}
         configureScene={this.configureScene}
@@ -36,7 +34,7 @@ export default class App extends Component {
   }
 
   renderScene(route, navigator) {
-    return <route.view navigator={navigator} {...route.passProps}/>
+    return <route.view navigator={navigator} {...route}/>
   }
 
   configureScene(route, routeStack) {
