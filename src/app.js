@@ -9,9 +9,9 @@ import {
   Navigator
 } from 'react-native'
 
-// import the login screen container
-// to add it as the first component to render
-import LoginScreen from './containers/login_screen'
+// import the login screen view and
+// add it as the first component to render
+import LoginScreen from './views/login_screen'
 
 // base route stack to render
 const routes = [

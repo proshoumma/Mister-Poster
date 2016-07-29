@@ -9,7 +9,7 @@ import {
   Text,
   StyleSheet
 } from 'react-native'
-import { getColor } from './config'
+import { getColor } from '../config'
 
 export default class LogoCircle extends Component {
   constructor(props) {
