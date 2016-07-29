@@ -19,9 +19,8 @@ export default class Background extends Component {
     return (
       <View style={styles.backgroundContainer}>
         <Image
-          source={this.props.imgSrouce}
-          style={styles.background}
-        />
+        source={this.props.imgSrouce}
+        style={styles.background}/>
       </View>
     )
   }

@@ -7,6 +7,7 @@ import React, { Component } from 'react'
 import {
   View,
   Text,
+  TouchableOpacity,
   StyleSheet
 } from 'react-native'
 import { getColor } from '../config'
@@ -28,11 +29,19 @@ export default class InitialView extends Component {
     return (
       <Animatable.View
       animation={animation}
-      style={styles.logoContainer}
+      style={styles.container}
       delay={this.props.animDelay}
       onAnimationEnd={this._handleAnimEnd.bind(this)}>
-        <Text onPress={this._handleSignInPress.bind(this)}>Sign In</Text>
-        <Text onPress={this._handleSignUpPress.bind(this)}>Sign Up</Text>
+        <TouchableOpacity onPress={this._handleSignInPress.bind(this)}>
+          <View style={styles.btnContainer}>
+            <Text style={styles.btnText}>{ 'Sign In'.toUpperCase() }</Text>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={this._handleSignUpPress.bind(this)}>
+          <View style={styles.btnContainer}>
+            <Text style={styles.btnText}>{ 'Sign Up'.toUpperCase() }</Text>
+          </View>
+        </TouchableOpacity>
       </Animatable.View>
     )
   }
@@ -58,5 +67,25 @@ export default class InitialView extends Component {
 }
 
 const styles = StyleSheet.create({
-
+  container: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'flex-end',
+    paddingBottom: 20
+  },
+  btnContainer: {
+    width: 130,
+    height: 40,
+    backgroundColor: '#ffffff',
+    borderRadius: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+    elevation: 10
+  },
+  btnText: {
+    fontFamily: 'Roboto-Bold',
+    fontSize: 12,
+    color: getColor()
+  }
 })
