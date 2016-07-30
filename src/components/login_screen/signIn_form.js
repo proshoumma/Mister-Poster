@@ -29,7 +29,8 @@ export default class SignInForm extends Component {
 
     this.state = {
       init: true,
-      errMsg: null
+      errMsg: null,
+      forgotPass: false
     }
   }
 
@@ -90,7 +91,7 @@ export default class SignInForm extends Component {
   }
 
   _handleForgotPassword() {
-    // TODO: do something
+    this.setState({ init: false, forgotPass: true })
   }
 
   _handleSignIn() {
@@ -108,7 +109,9 @@ export default class SignInForm extends Component {
   }
 
   _handleAnimEnd() {
-    if (!this.state.init) {
+    if (this.state.forgotPass) {
+      this.props.onForgotPass()
+    } else if (!this.state.init) {
       this.props.onBackFromSignIn()
     }
   }
@@ -129,8 +132,9 @@ const styles = StyleSheet.create({
   },
   errMsg: {
     color: '#ffffff',
-    fontSize: 12,
-    marginBottom: 10
+    marginBottom: 10,
+    fontSize: 14,
+    fontFamily: 'Roboto-Regular'
   },
   inputContainer: {
     backgroundColor: 'rgba(255,255,255,.3)',

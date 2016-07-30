@@ -10,6 +10,7 @@ import {
   LayoutAnimation,
   Platform,
   UIManager,
+  StatusBar,
   StyleSheet
 } from 'react-native'
 import * as Animatable from 'react-native-animatable'
@@ -20,6 +21,7 @@ import LogoCircle from '../components/login_screen/logo_circle'
 import InitialView from '../components/login_screen/initial_view'
 import SignInForm from '../components/login_screen/signIn_form'
 import SignUpForm from '../components/login_screen/signUp_form'
+import ForgotPassForm from '../components/login_screen/forgotPassword_form'
 
 // import and configure firebase
 // import * as firebase from 'firebase';
@@ -40,7 +42,8 @@ export default class LoginScreen extends Component {
       initialRun: true,
       initialScreen: true,
       signIn: false,
-      signUp: false
+      signUp: false,
+      forgotPass: false
     }
 
     if (Platform.OS === 'android') {
@@ -68,7 +71,8 @@ export default class LoginScreen extends Component {
 
     const signIn = this.state.signIn ?
       <SignInForm
-      onBackFromSignIn={this._onBackFromSignIn.bind(this)} />
+      onBackFromSignIn={this._onBackFromSignIn.bind(this)}
+      onForgotPass = {this._onForgotPass.bind(this)} />
     : null
 
     const signUp = this.state.signUp ?
@@ -76,8 +80,18 @@ export default class LoginScreen extends Component {
       onBackFromSignUp={this._onBackFromSignUp.bind(this)} />
     : null
 
+    const fogotPass = this.state.forgotPass ?
+      <ForgotPassForm
+      onBackFromForgotPass={this._onBackFromForgotPass.bind(this)} />
+    : null
+
     return (
       <View style={styles.container}>
+        <StatusBar
+          backgroundColor={getColor('googleBlue700')}
+          animated={true}
+        />
+
         <Background imgSrouce={require('../assets/images/cat-image-home-screen.jpg')}/>
 
         <Animatable.View
@@ -90,6 +104,7 @@ export default class LoginScreen extends Component {
         { initialView }
         { signIn }
         { signUp }
+        { fogotPass }
 
       </View>
     )
@@ -120,6 +135,22 @@ export default class LoginScreen extends Component {
     this.setState({
       initialScreen: true,
       signUp: false
+    })
+  }
+
+  _onForgotPass() {
+    this.setState({
+      initialScreen: false,
+      signIn: false,
+      signUp: false,
+      forgotPass: true
+    })
+  }
+
+  _onBackFromForgotPass() {
+    this.setState({
+      initialScreen: true,
+      forgotPass: false
     })
   }
 }

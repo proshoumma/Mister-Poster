@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
   },
   title: {
     marginBottom: 20,
-    fontSize: 25,
+    fontSize: 30,
     fontFamily: 'MagmaWave',
     marginBottom: 20,
     color: 'rgba(255,255,255,.8)'

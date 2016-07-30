@@ -1,5 +1,5 @@
 /**
- * this is the sign up form of the login screen
+ * this is the forgot password form of the login screen
  */
 
 import React, { Component } from 'react'
@@ -17,7 +17,7 @@ import {
 import { getColor } from '../config'
 import * as Animatable from 'react-native-animatable'
 
-export default class SignUpForm extends Component {
+export default class ForgotPassForm extends Component {
   constructor(props) {
     super(props)
 
@@ -29,8 +29,7 @@ export default class SignUpForm extends Component {
 
     this.state = {
       init: true,
-      errMsg: null,
-      signUpSuccess: false
+      errMsg: null
     }
   }
 
@@ -48,62 +47,39 @@ export default class SignUpForm extends Component {
 
   render() {
     const animation = this.state.init ? 'bounceInUp' : 'bounceOutDown'
-
     const errorMessage = this.state.errMsg ?
       <Text style={styles.errMsg}>{this.state.errMsg}</Text>
     : null
-
-    const signUpForm = this.state.signUpSuccess ?
-      null
-    :
-      <View>
-        <View style={[styles.inputContainer, { marginBottom: 10 }]}>
-          <TextInput
-          style={styles.inputField}
-          underlineColorAndroid='transparent'
-          placeholder='Your Email'
-          placeholderTextColor='rgba(255,255,255,.6)'
-          />
-        </View>
-        <View style={styles.inputContainer}>
-          <TextInput
-          style={styles.inputField}
-          underlineColorAndroid='transparent'
-          placeholder='Choose Password'
-          secureTextEntry={true}
-          placeholderTextColor='rgba(255,255,255,.6)'
-          />
-        </View>
-        <View style={styles.btnContainers}>
-          <TouchableOpacity onPress={this._handleSignUp.bind(this)}>
-            <View style={styles.submitBtnContainer}>
-              <Text style={styles.submitBtn}>{'Let\'s Go'.toUpperCase()}</Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-      </View>
 
     return (
       <Animatable.View
       animation={animation}
       style={styles.container}
       onAnimationEnd={this._handleAnimEnd.bind(this)}>
-        <Text style={styles.title}>Sign Up</Text>
+        <Text style={styles.title}>Forgot Password</Text>
         {errorMessage}
-        {signUpForm}
+        <View style={[styles.inputContainer, { marginBottom: 10 }]}>
+          <TextInput
+          style={styles.inputField}
+          underlineColorAndroid='transparent'
+          placeholder='Enter Your Email'
+          placeholderTextColor='rgba(255,255,255,.6)'
+          />
+        </View>
+        <View style={styles.btnContainers}>
+          <TouchableOpacity onPress={this._handleForgotPass.bind(this)}>
+            <View style={styles.submitBtnContainer}>
+              <Text style={styles.submitBtn}>{'Recover My Password'.toUpperCase()}</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
       </Animatable.View>
     )
   }
 
-  _handleSignUp() {
+  _handleForgotPass() {
     // TODO: do something
-    this.setState({errMsg: 'Signing Up...'})
-    setTimeout( () => {
-      this.setState({
-        errMsg: 'Thank you for signing up. An email has been send to your account for verification. Please verify your email and login to continue.',
-        signUpSuccess: true
-      })
-    }, 2000 )
+    this.setState({errMsg: 'Email didn\'t match'})
   }
 
   _handleGoBack() {
@@ -117,14 +93,8 @@ export default class SignUpForm extends Component {
 
   _handleAnimEnd() {
     if (!this.state.init) {
-      this.props.onBackFromSignUp()
+      this.props.onBackFromForgotPass()
     }
-  }
-
-  _signUpSuccess() {
-    this.setState({
-      signUpSuccess: true
-    })
   }
 }
 
@@ -136,19 +106,16 @@ const styles = StyleSheet.create({
     paddingBottom: 20
   },
   title: {
-    fontSize: 25,
+    fontSize: 20,
     fontFamily: 'MagmaWave',
     marginBottom: 10,
     color: 'rgba(255,255,255,.8)'
   },
   errMsg: {
     color: '#ffffff',
-    fontSize: 12,
-    marginBottom: 10,
-    width: 280,
-    textAlign: 'center',
     fontSize: 14,
-    fontFamily: 'Roboto-Regular'
+    fontFamily: 'Roboto-Regular',
+    marginBottom: 10
   },
   inputContainer: {
     backgroundColor: 'rgba(255,255,255,.3)',
@@ -163,13 +130,13 @@ const styles = StyleSheet.create({
     color: '#ffffff'
   },
   btnContainers: {
-    marginTop: 15,
+    marginTop: 0,
     justifyContent: 'center',
     alignItems: 'center',
     width: 280
   },
   submitBtnContainer: {
-    width: 120,
+    width: 240,
     height: 40,
     backgroundColor: '#ffffff',
     borderRadius: 5,
