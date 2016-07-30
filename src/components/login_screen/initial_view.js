@@ -32,16 +32,19 @@ export default class InitialView extends Component {
       style={styles.container}
       delay={this.props.animDelay}
       onAnimationEnd={this._handleAnimEnd.bind(this)}>
-        <TouchableOpacity onPress={this._handleSignInPress.bind(this)}>
-          <View style={styles.btnContainer}>
-            <Text style={styles.btnText}>{ 'Sign In'.toUpperCase() }</Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={this._handleSignUpPress.bind(this)}>
-          <View style={styles.btnContainer}>
-            <Text style={styles.btnText}>{ 'Sign Up'.toUpperCase() }</Text>
-          </View>
-        </TouchableOpacity>
+        <Text style={styles.title}>Mister Poster</Text>
+        <View style={styles.btnBox}>
+          <TouchableOpacity onPress={this._handleSignInPress.bind(this)}>
+            <View style={styles.btnContainer}>
+              <Text style={styles.btnText}>{ 'Sign In'.toUpperCase() }</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={this._handleSignUpPress.bind(this)}>
+            <View style={styles.btnContainer}>
+              <Text style={styles.btnText}>{ 'Sign Up'.toUpperCase() }</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
       </Animatable.View>
     )
   }
@@ -69,10 +72,23 @@ export default class InitialView extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    paddingBottom: 20
+  },
+  title: {
+    marginBottom: 20,
+    fontSize: 25,
+    fontFamily: 'MagmaWave',
+    marginBottom: 20,
+    color: 'rgba(255,255,255,.8)'
+  },
+  btnBox: {
+    height: 40,
+    width: 300,
     flexDirection: 'row',
     justifyContent: 'space-around',
-    alignItems: 'flex-end',
-    paddingBottom: 20
+    alignItems: 'flex-end'
   },
   btnContainer: {
     width: 130,

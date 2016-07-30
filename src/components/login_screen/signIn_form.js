@@ -9,6 +9,9 @@ import {
   TextInput,
   BackAndroid,
   TouchableOpacity,
+  LayoutAnimation,
+  Platform,
+  UIManager,
   StyleSheet
 } from 'react-native'
 import { getColor } from '../config'
@@ -20,13 +23,22 @@ export default class SignInForm extends Component {
 
     this._handleBackBtnPress = this._handleBackBtnPress.bind(this)
 
+    if (Platform.OS === 'android') {
+      UIManager.setLayoutAnimationEnabledExperimental(true)
+    }
+
     this.state = {
-      init: true
+      init: true,
+      errMsg: null
     }
   }
 
   componentDidMount() {
     BackAndroid.addEventListener('backBtnPressed', this._handleBackBtnPress)
+  }
+
+  componentDidUpdate() {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring)
   }
 
   componentWillUnmount() {
@@ -35,17 +47,20 @@ export default class SignInForm extends Component {
 
   render() {
     const animation = this.state.init ? 'bounceInUp' : 'bounceOutDown'
+    const errorMessage = this.state.errMsg ? <Text style={styles.errMsg}>{this.state.errMsg}</Text> : null
+
     return (
       <Animatable.View
       animation={animation}
       style={styles.container}
       onAnimationEnd={this._handleAnimEnd.bind(this)}>
         <Text style={styles.title}>Sign In</Text>
+        {errorMessage}
         <View style={[styles.inputContainer, { marginBottom: 10 }]}>
           <TextInput
           style={styles.inputField}
           underlineColorAndroid='transparent'
-          placeholder='Username'
+          placeholder='Email'
           placeholderTextColor='rgba(255,255,255,.6)'
           />
         </View>
@@ -58,13 +73,29 @@ export default class SignInForm extends Component {
           placeholderTextColor='rgba(255,255,255,.6)'
           />
         </View>
-        <TouchableOpacity onPress={this._handleGoBack.bind(this)}>
-          <View style={styles.submitBtnContainer}>
-            <Text style={styles.submitBtn}>{'Let\'s Go'.toUpperCase()}</Text>
-          </View>
-        </TouchableOpacity>
+        <View style={styles.btnContainers}>
+          <TouchableOpacity onPress={this._handleForgotPassword.bind(this)}>
+            <View style={styles.fogotBtnContainer}>
+              <Text style={styles.forgotBtn}>{'Forgot Password?'.toUpperCase()}</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={this._handleSignIn.bind(this)}>
+            <View style={styles.submitBtnContainer}>
+              <Text style={styles.submitBtn}>{'Let\'s Go'.toUpperCase()}</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
       </Animatable.View>
     )
+  }
+
+  _handleForgotPassword() {
+    // TODO: do something
+  }
+
+  _handleSignIn() {
+    // TODO: do something
+    this.setState({errMsg: 'Email/Password didn\'t match'})
   }
 
   _handleGoBack() {
@@ -93,8 +124,13 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 25,
     fontFamily: 'MagmaWave',
-    marginBottom: 20,
+    marginBottom: 10,
     color: 'rgba(255,255,255,.8)'
+  },
+  errMsg: {
+    color: '#ffffff',
+    fontSize: 12,
+    marginBottom: 10
   },
   inputContainer: {
     backgroundColor: 'rgba(255,255,255,.3)',
@@ -108,8 +144,22 @@ const styles = StyleSheet.create({
     fontFamily: 'Roboto-Bold',
     color: '#ffffff'
   },
+  btnContainers: {
+    marginTop: 15,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: 280
+  },
+  fogotBtnContainer: {
+
+  },
+  forgotBtn: {
+    fontFamily: 'Roboto-Bold',
+    fontSize: 12,
+    color: '#ffffff'
+  },
   submitBtnContainer: {
-    marginTop: 20,
     width: 120,
     height: 40,
     backgroundColor: '#ffffff',

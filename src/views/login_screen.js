@@ -7,6 +7,9 @@ import {
   Text,
   View,
   TouchableOpacity,
+  LayoutAnimation,
+  Platform,
+  UIManager,
   StyleSheet
 } from 'react-native'
 import * as Animatable from 'react-native-animatable'
@@ -34,19 +37,33 @@ export default class LoginScreen extends Component {
     super(props)
 
     this.state = {
-      initial: true,
+      initialRun: true,
+      initialScreen: true,
       signIn: false,
-      signUp: false,
-      animationDelay: 500
+      signUp: false
+    }
+
+    if (Platform.OS === 'android') {
+      UIManager.setLayoutAnimationEnabledExperimental(true)
     }
   }
 
+  componentDidMount() {
+    this.setState({initialRun: false})
+  }
+
+  componentDidUpdate() {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring)
+  }
+
   render() {
-    const initialView = this.state.initial ?
+    const animationDelay = this.state.initialRun ? 500 : 0
+
+    const initialView = this.state.initialScreen ?
       <InitialView
       onSignIn={this._onSignIn.bind(this)}
       onSignUp={this._onSignUp.bind(this)}
-      animDelay={this.state.animationDelay}/>
+      animDelay={animationDelay}/>
     : null
 
     const signIn = this.state.signIn ?
@@ -66,7 +83,7 @@ export default class LoginScreen extends Component {
         <Animatable.View
         animation="bounceInDown"
         style={styles.logoContainer}
-        delay={this.state.animationDelay}>
+        delay={animationDelay}>
           <LogoCircle />
         </Animatable.View>
 
@@ -80,28 +97,28 @@ export default class LoginScreen extends Component {
 
   _onSignIn() {
     this.setState({
-      initial: false,
+      initialScreen: false,
       signIn: true
     })
   }
 
   _onBackFromSignIn() {
     this.setState({
-      initial: true,
+      initialScreen: true,
       signIn: false
     })
   }
 
   _onSignUp() {
     this.setState({
-      initial: false,
+      initialScreen: false,
       signUp: true
     })
   }
 
   _onBackFromSignUp() {
     this.setState({
-      initial: true,
+      initialScreen: true,
       signUp: false
     })
   }
