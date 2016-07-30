@@ -29,7 +29,8 @@ export default class SignUpForm extends Component {
 
     this.state = {
       init: true,
-      errMsg: null
+      errMsg: null,
+      signUpSuccess: false
     }
   }
 
@@ -47,17 +48,15 @@ export default class SignUpForm extends Component {
 
   render() {
     const animation = this.state.init ? 'bounceInUp' : 'bounceOutDown'
+
     const errorMessage = this.state.errMsg ?
       <Text style={styles.errMsg}>{this.state.errMsg}</Text>
     : null
 
-    return (
-      <Animatable.View
-      animation={animation}
-      style={styles.container}
-      onAnimationEnd={this._handleAnimEnd.bind(this)}>
-        <Text style={styles.title}>Sign Up</Text>
-        {errorMessage}
+    const signUpForm = this.state.signUpSuccess ?
+      null
+    :
+      <View>
         <View style={[styles.inputContainer, { marginBottom: 10 }]}>
           <TextInput
           style={styles.inputField}
@@ -82,13 +81,29 @@ export default class SignUpForm extends Component {
             </View>
           </TouchableOpacity>
         </View>
+      </View>
+
+    return (
+      <Animatable.View
+      animation={animation}
+      style={styles.container}
+      onAnimationEnd={this._handleAnimEnd.bind(this)}>
+        <Text style={styles.title}>Sign Up</Text>
+        {errorMessage}
+        {signUpForm}
       </Animatable.View>
     )
   }
 
   _handleSignUp() {
     // TODO: do something
-    this.setState({errMsg: 'Email already exists'})
+    this.setState({errMsg: 'Signing Up...'})
+    setTimeout( () => {
+      this.setState({
+        errMsg: 'Thank you for signing up. An email has been send to your account for verification. Please verify your email and login to continue.',
+        signUpSuccess: true
+      })
+    }, 2000 )
   }
 
   _handleGoBack() {
@@ -104,6 +119,12 @@ export default class SignUpForm extends Component {
     if (!this.state.init) {
       this.props.onBackFromSignUp()
     }
+  }
+
+  _signUpSuccess() {
+    this.setState({
+      signUpSuccess: true
+    })
   }
 }
 
@@ -123,7 +144,9 @@ const styles = StyleSheet.create({
   errMsg: {
     color: '#ffffff',
     fontSize: 12,
-    marginBottom: 10
+    marginBottom: 10,
+    width: 280,
+    textAlign: 'center'
   },
   inputContainer: {
     backgroundColor: 'rgba(255,255,255,.3)',
