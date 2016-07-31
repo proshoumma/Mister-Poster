@@ -1,30 +1,130 @@
 /**
  * the universal timeline
+ * it's a redux container
  */
 
 import React, { Component } from 'react'
 import {
   Text,
   View,
-  StyleSheet
+  StyleSheet,
+  ScrollView,
+  RefreshControl
 } from 'react-native'
+import { getColor } from '../config'
 
 export default class Timeline extends Component {
   constructor(props) {
     super(props)
+
+    this.state = {
+      isRefreshing: false
+    }
+  }
+
+  _onRefresh() {
+    this.setState({ isRefreshing: true })
+
+    setTimeout(()=>{
+      this.setState({isRefreshing: false})
+    }, 3000)
   }
 
   render() {
     return (
-      <View>
-        <Text>
-          Timeline
-        </Text>
+      <View style={styles.container}>
+        <ScrollView
+        refreshControl={
+          <RefreshControl
+            refreshing={this.state.isRefreshing}
+            onRefresh={this._onRefresh.bind(this)}
+            tintColor="#ff0000"
+            title="Loading..."
+            titleColor="#00ff00"
+            colors={[getColor()]}
+            progressBackgroundColor={getColor('#ffffff')}
+          />
+        }>
+
+        <View style={styles.card}>
+          <Text style={styles.name}>
+            Mister Poster
+          </Text>
+          <Text style={styles.time}>
+            Posted an hour ago
+          </Text>
+          <Text style={styles.content}>
+            This is a Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          </Text>
+        </View>
+        <View style={styles.card}>
+          <Text style={styles.name}>
+            Mister Poster
+          </Text>
+          <Text style={styles.time}>
+            Posted an hour ago
+          </Text>
+          <Text style={styles.content}>
+            This is a Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          </Text>
+        </View>
+        <View style={styles.card}>
+          <Text style={styles.name}>
+            Mister Poster
+          </Text>
+          <Text style={styles.time}>
+            Posted an hour ago
+          </Text>
+          <Text style={styles.content}>
+            This is a Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          </Text>
+        </View>
+        <View style={styles.card}>
+          <Text style={styles.name}>
+            Mister Poster
+          </Text>
+          <Text style={styles.time}>
+            Posted an hour ago
+          </Text>
+          <Text style={styles.content}>
+            This is a Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          </Text>
+        </View>
+
+        </ScrollView>
       </View>
     )
   }
 }
 
 const styles = StyleSheet.create({
-
+  container: {
+    flex: 1
+  },
+  card: {
+    borderWidth: 1,
+    borderColor: '#e2e2e2',
+    borderRadius: 2,
+    backgroundColor: '#ffffff',
+    padding: 10,
+    marginTop: 5,
+    marginBottom: 5,
+    marginLeft: 10,
+    marginRight: 10
+  },
+  name: {
+    color: getColor(),
+    fontFamily: 'Roboto-Bold',
+    fontSize: 15
+  },
+  time: {
+    fontFamily: 'Roboto-Regular',
+    fontSize: 12,
+    paddingBottom: 10
+  },
+  content: {
+    color: 'rgba(0,0,0,.8)',
+    fontFamily: 'Roboto-Regular',
+    fontSize: 14
+  }
 })

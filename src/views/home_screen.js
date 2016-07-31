@@ -1,5 +1,6 @@
 /**
- * Home
+ * Home screen
+ * ScrollableTabView is used for different screens
  */
 
 import React, { Component } from 'react'
@@ -11,11 +12,14 @@ import {
   StyleSheet
 } from 'react-native'
 import ScrollableTabView, { DefaultTabBar } from 'react-native-scrollable-tab-view'
+import Icon from 'react-native-vector-icons/Ionicons'
 import { getColor } from '../components/config'
 
 import NavigationTab from '../components/home_screen/navTab'
 import Timeline from '../components/home_screen/timeline'
+import CreateNew from '../components/home_screen/createNew'
 import MyPosts from '../components/home_screen/myPosts'
+import Settings from '../components/home_screen/settings'
 
 export default class HomeScreen extends Component {
   constructor(props) {
@@ -29,22 +33,13 @@ export default class HomeScreen extends Component {
         backgroundColor={getColor('googleBlue700')}
         animated={true}
         />
-
         <ScrollableTabView
         initialPage={0}
         renderTabBar={() => <NavigationTab />}>
-
-          <ScrollView tabLabel="ios-paper">
-            <View style={styles.card}>
-              <Text>News</Text>
-            </View>
-          </ScrollView>
-          <ScrollView tabLabel="ios-people">
-            <View style={styles.card}>
-              <Text>Friends</Text>
-            </View>
-          </ScrollView>
-
+          <Timeline tabLabel="md-pulse"/>
+          <CreateNew tabLabel="md-create"/>
+          <MyPosts tabLabel="md-contact"/>
+          <Settings tabLabel="ios-settings"/>
         </ScrollableTabView>
       </View>
     )
@@ -54,17 +49,5 @@ export default class HomeScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1
-  },
-  card: {
-    borderWidth: 1,
-    backgroundColor: '#fff',
-    borderColor: 'rgba(0,0,0,0.1)',
-    margin: 5,
-    height: 150,
-    padding: 15,
-    shadowColor: '#ccc',
-    shadowOffset: { width: 2, height: 2, },
-    shadowOpacity: 0.5,
-    shadowRadius: 3,
   }
 })

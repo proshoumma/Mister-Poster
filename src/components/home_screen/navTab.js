@@ -28,7 +28,7 @@ export default class NavigationTab extends Component {
                 name={tab}
                 size={30}
                 color={this.props.activeTab === i ?
-                  getColor('#ffffff') : getColor('rgba(255,255,255,.6)')}
+                  getColor('#ffffff') : getColor('rgba(255,255,255,.4)')}
               />
             </TouchableOpacity>
           )
@@ -41,9 +41,10 @@ export default class NavigationTab extends Component {
 
 const styles = StyleSheet.create({
   tabs: {
-    height: 45,
+    height: 50,
     flexDirection: 'row',
-    backgroundColor: getColor('googleBlue500')
+    backgroundColor: getColor('googleBlue500'),
+    elevation: 5
   },
   titleContainer: {
     flex: 3,
