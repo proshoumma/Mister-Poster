@@ -11,11 +11,13 @@ import {
 
 // import the login screen view and
 // add it as the first component to render
+// added HomeScreen to debug
 import LoginScreen from './views/login_screen'
+import HomeScreen from './views/home_screen'
 
 // base route stack to render
 const routes = [
-  { view: LoginScreen }
+  { view: HomeScreen }
 ]
 
 export default class App extends Component {

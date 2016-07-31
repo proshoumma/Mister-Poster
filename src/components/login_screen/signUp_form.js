@@ -96,7 +96,6 @@ export default class SignUpForm extends Component {
   }
 
   _handleSignUp() {
-    // TODO: do something
     this.setState({errMsg: 'Signing Up...'})
     setTimeout( () => {
       this.setState({
