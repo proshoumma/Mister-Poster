@@ -12,6 +12,7 @@ import {
   RefreshControl
 } from 'react-native'
 import { getColor } from '../config'
+import Post from './post'
 
 export default class Timeline extends Component {
   constructor(props) {
@@ -46,50 +47,21 @@ export default class Timeline extends Component {
           />
         }>
 
-        <View style={styles.card}>
-          <Text style={styles.name}>
-            Mister Poster
-          </Text>
-          <Text style={styles.time}>
-            Posted an hour ago
-          </Text>
-          <Text style={styles.content}>
-            This is a Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-          </Text>
-        </View>
-        <View style={styles.card}>
-          <Text style={styles.name}>
-            Mister Poster
-          </Text>
-          <Text style={styles.time}>
-            Posted an hour ago
-          </Text>
-          <Text style={styles.content}>
-            This is a Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-          </Text>
-        </View>
-        <View style={styles.card}>
-          <Text style={styles.name}>
-            Mister Poster
-          </Text>
-          <Text style={styles.time}>
-            Posted an hour ago
-          </Text>
-          <Text style={styles.content}>
-            This is a Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-          </Text>
-        </View>
-        <View style={styles.card}>
-          <Text style={styles.name}>
-            Mister Poster
-          </Text>
-          <Text style={styles.time}>
-            Posted an hour ago
-          </Text>
-          <Text style={styles.content}>
-            This is a Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-          </Text>
-        </View>
+        <Post
+        posterName={'Mister Poster'}
+        postTime={'Posted an hour ago'}
+        postContent={'This is a Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'}
+        />
+        <Post
+        posterName={'Mister Poster'}
+        postTime={'Posted an hour ago'}
+        postContent={'This is a Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'}
+        />
+        <Post
+        posterName={'Mister Poster'}
+        postTime={'Posted an hour ago'}
+        postContent={'This is a Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'}
+        />
 
         </ScrollView>
       </View>
