@@ -120,8 +120,14 @@ export default class SignUpForm extends Component {
         displayName: this.state.displayName
       })
       .then(() => {
-        this.setState({errMsg: 'Thank you for signing up'})
-        console.log(firebase.auth().currentUser)
+        this.setState({errMsg: 'Thank you for signing up, wait for a bit to let us sign in into your account.', signUpSuccess: true})
+
+        setTimeout(() => {
+          if (firebase.auth().currentUser) {
+            this.props.goToHomeScreen()
+          }
+        }, 1000)
+
       })
       .catch((error) => {
         this.setState({errMsg: error.errorMessage})

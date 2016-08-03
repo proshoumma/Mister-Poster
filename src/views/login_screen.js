@@ -16,6 +16,7 @@ import {
 import * as Animatable from 'react-native-animatable'
 import { getColor } from '../components/config'
 
+import HomeScreen from './home_screen'
 import Background from '../components/background'
 import LogoCircle from '../components/login_screen/logo_circle'
 import InitialView from '../components/login_screen/initial_view'
@@ -60,12 +61,14 @@ export default class LoginScreen extends Component {
 
     const signIn = this.state.signIn ?
       <SignInForm
+      goToHomeScreen={this._onSignInSuccess.bind(this)}
       onBackFromSignIn={this._onBackFromSignIn.bind(this)}
       onForgotPass = {this._onForgotPass.bind(this)} />
     : null
 
     const signUp = this.state.signUp ?
       <SignUpForm
+      goToHomeScreen={this._onSignInSuccess.bind(this)}
       onBackFromSignUp={this._onBackFromSignUp.bind(this)} />
     : null
 
@@ -141,6 +144,10 @@ export default class LoginScreen extends Component {
       initialScreen: true,
       forgotPass: false
     })
+  }
+
+  _onSignInSuccess() {
+    this.props.navigator.push({ view: HomeScreen })
   }
 }
 
