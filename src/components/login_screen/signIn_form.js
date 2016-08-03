@@ -107,6 +107,9 @@ class SignInForm extends Component {
     // TODO: do something
     this.setState({errMsg: 'Signing In...'})
     firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
+      .then((msg) => {
+        console.log(msg)
+      })
       .catch((error) => {
         this.setState({ errMsg: error.message })
       })

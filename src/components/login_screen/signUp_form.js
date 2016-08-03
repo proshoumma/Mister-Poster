@@ -30,7 +30,10 @@ export default class SignUpForm extends Component {
     this.state = {
       init: true,
       errMsg: null,
-      signUpSuccess: false
+      signUpSuccess: false,
+      displayName: '',
+      email: '',
+      password: ''
     }
   }
 
@@ -60,6 +63,18 @@ export default class SignUpForm extends Component {
         <View style={[styles.inputContainer, { marginBottom: 10 }]}>
           <TextInput
           style={styles.inputField}
+          value={this.state.displayName}
+          onChangeText={(text) => this.setState({ displayName: text })}
+          underlineColorAndroid='transparent'
+          placeholder='Your Name'
+          placeholderTextColor='rgba(255,255,255,.6)'
+          />
+        </View>
+        <View style={[styles.inputContainer, { marginBottom: 10 }]}>
+          <TextInput
+          style={styles.inputField}
+          value={this.state.email}
+          onChangeText={(text) => this.setState({ email: text })}
           underlineColorAndroid='transparent'
           placeholder='Your Email'
           placeholderTextColor='rgba(255,255,255,.6)'
@@ -68,6 +83,8 @@ export default class SignUpForm extends Component {
         <View style={styles.inputContainer}>
           <TextInput
           style={styles.inputField}
+          value={this.state.password}
+          onChangeText={(text) => this.setState({ password: text })}
           underlineColorAndroid='transparent'
           placeholder='Choose Password'
           secureTextEntry={true}
@@ -97,12 +114,22 @@ export default class SignUpForm extends Component {
 
   _handleSignUp() {
     this.setState({errMsg: 'Signing Up...'})
-    setTimeout( () => {
-      this.setState({
-        errMsg: 'Thank you for signing up. An email has been send to your account for verification. Please verify your email and login to continue.',
-        signUpSuccess: true
+    firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
+    .then(() => {
+      firebase.auth().currentUser.updateProfile({
+        displayName: this.state.displayName
       })
-    }, 2000 )
+      .then(() => {
+        this.setState({errMsg: 'Thank you for signing up'})
+        console.log(firebase.auth().currentUser)
+      })
+      .catch((error) => {
+        this.setState({errMsg: error.errorMessage})
+      })
+    })
+    .catch((error) => {
+      this.setState({errMsg: error.message})
+    })
   }
 
   _handleGoBack() {
