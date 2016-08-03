@@ -14,6 +14,7 @@ import {
   UIManager,
   StyleSheet
 } from 'react-native'
+import { firebaseApp } from '../../firebase'
 import { getColor } from '../config'
 import * as Animatable from 'react-native-animatable'
 
@@ -114,16 +115,16 @@ export default class SignUpForm extends Component {
 
   _handleSignUp() {
     this.setState({errMsg: 'Signing Up...'})
-    firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
+    firebaseApp.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
     .then(() => {
-      firebase.auth().currentUser.updateProfile({
+      firebaseApp.auth().currentUser.updateProfile({
         displayName: this.state.displayName
       })
       .then(() => {
         this.setState({errMsg: 'Thank you for signing up, wait for a bit to let us sign in into your account.', signUpSuccess: true})
 
         setTimeout(() => {
-          if (firebase.auth().currentUser) {
+          if (firebaseApp.auth().currentUser) {
             this.props.goToHomeScreen()
           }
         }, 1000)

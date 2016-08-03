@@ -14,7 +14,6 @@ import {
 import ScrollableTabView, { DefaultTabBar } from 'react-native-scrollable-tab-view'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { getColor } from '../components/config'
-
 import NavigationTab from '../components/home_screen/navTab'
 import Timeline from '../components/home_screen/timeline'
 import CreateNew from '../components/home_screen/createNew'
@@ -39,10 +38,16 @@ export default class HomeScreen extends Component {
           <Timeline tabLabel="md-pulse"/>
           <CreateNew tabLabel="md-create"/>
           <MyPosts tabLabel="md-contact"/>
-          <Settings tabLabel="ios-settings"/>
+          <Settings
+          onLogOut={this._onLogOut.bind(this)}
+          tabLabel="ios-settings"/>
         </ScrollableTabView>
       </View>
     )
+  }
+
+  _onLogOut() {
+    this.props.navigator.pop()
   }
 }
 

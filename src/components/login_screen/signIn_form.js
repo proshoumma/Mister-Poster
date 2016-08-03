@@ -106,9 +106,9 @@ class SignInForm extends Component {
   _handleSignIn() {
     // TODO: do something
     this.setState({errMsg: 'Signing In...'})
-    firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
-      .then((msg) => {
-        console.log(msg)
+    firebaseApp.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
+      .then(() => {
+        this.props.goToHomeScreen();
       })
       .catch((error) => {
         this.setState({ errMsg: error.message })
