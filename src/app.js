@@ -17,7 +17,7 @@ import HomeScreen from './views/home_screen'
 
 // base route stack to render
 const routes = [
-  { view: HomeScreen }
+  { view: LoginScreen }
 ]
 
 export default class App extends Component {

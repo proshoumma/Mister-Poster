@@ -14,10 +14,13 @@ import {
   UIManager,
   StyleSheet
 } from 'react-native'
+import { connect } from 'react-redux'
+import { signIn } from '../../actions'
 import { getColor } from '../config'
+import { firebaseApp } from '../../firebase'
 import * as Animatable from 'react-native-animatable'
 
-export default class SignInForm extends Component {
+class SignInForm extends Component {
   constructor(props) {
     super(props)
 
@@ -30,7 +33,9 @@ export default class SignInForm extends Component {
     this.state = {
       init: true,
       errMsg: null,
-      forgotPass: false
+      forgotPass: false,
+      email: '',
+      password: ''
     }
   }
 
@@ -63,6 +68,8 @@ export default class SignInForm extends Component {
           underlineColorAndroid='transparent'
           placeholder='Email'
           placeholderTextColor='rgba(255,255,255,.6)'
+          value={this.state.email}
+          onChangeText={(text) => this.setState({ email: text })}
           />
         </View>
         <View style={styles.inputContainer}>
@@ -72,6 +79,8 @@ export default class SignInForm extends Component {
           placeholder='Password'
           secureTextEntry={true}
           placeholderTextColor='rgba(255,255,255,.6)'
+          value={this.state.password}
+          onChangeText={(text) => this.setState({ password: text })}
           />
         </View>
         <View style={styles.btnContainers}>
@@ -96,7 +105,11 @@ export default class SignInForm extends Component {
 
   _handleSignIn() {
     // TODO: do something
-    this.setState({errMsg: 'Email/Password didn\'t match'})
+    this.setState({errMsg: 'Signing In...'})
+    firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
+      .catch((error) => {
+        this.setState({ errMsg: error.message })
+      })
   }
 
   _handleGoBack() {
@@ -117,6 +130,12 @@ export default class SignInForm extends Component {
   }
 }
 
+function mapStateToProps(state) {
+  return { currentUser: state.currentUser }
+}
+
+export default connect(mapStateToProps, {signIn})(SignInForm)
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -131,6 +150,9 @@ const styles = StyleSheet.create({
     color: 'rgba(255,255,255,.8)'
   },
   errMsg: {
+    width: 280,
+    textAlign: 'center',
+    alignSelf: 'center',
     color: '#ffffff',
     marginBottom: 10,
     fontSize: 14,

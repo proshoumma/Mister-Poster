@@ -2,17 +2,17 @@
  * reducer to get/set information about current user
  */
 
-import { GET_USER } from '../actions'
+import { SIGNIN } from '../actions'
 
 const defaultUser = {
-  username  : 'Hello World'
+  email  : null,
+  signInStatus: null
 }
 
 export default (state = defaultUser, action) => {
   switch (action.type) {
-    case GET_USER:
+    case SIGNIN:
       return state
-
     default:
       return state
   }
