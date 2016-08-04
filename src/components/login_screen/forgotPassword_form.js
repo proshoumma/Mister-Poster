@@ -16,6 +16,7 @@ import {
 } from 'react-native'
 import { getColor } from '../config'
 import * as Animatable from 'react-native-animatable'
+import { firebaseApp } from '../../firebase'
 
 export default class ForgotPassForm extends Component {
   constructor(props) {
@@ -29,7 +30,8 @@ export default class ForgotPassForm extends Component {
 
     this.state = {
       init: true,
-      errMsg: null
+      errMsg: null,
+      email: ''
     }
   }
 
@@ -64,6 +66,7 @@ export default class ForgotPassForm extends Component {
           underlineColorAndroid='transparent'
           placeholder='Enter Your Email'
           placeholderTextColor='rgba(255,255,255,.6)'
+          onChangeText={(text) => this.setState({ email: text })}
           />
         </View>
         <View style={styles.btnContainers}>
@@ -78,8 +81,13 @@ export default class ForgotPassForm extends Component {
   }
 
   _handleForgotPass() {
-    // TODO: do something
-    this.setState({errMsg: 'Email didn\'t match'})
+    this.setState({errMsg: 'Please Wait...'})
+
+    firebaseApp.auth().sendPasswordResetEmail(this.state.email).then(()=> {
+      this.setState({errMsg: 'An email has been sent!'})
+    }).catch((error) => {
+      this.setState({errMsg: error.message})
+    })
   }
 
   _handleGoBack() {

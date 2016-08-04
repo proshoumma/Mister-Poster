@@ -126,6 +126,9 @@ export default class SignUpForm extends Component {
         setTimeout(() => {
           if (firebaseApp.auth().currentUser) {
             this.props.goToHomeScreen()
+            setTimeout(()=> {
+              this._handleGoBack()
+            }, 1000)
           }
         }, 1000)
 

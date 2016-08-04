@@ -108,7 +108,10 @@ class SignInForm extends Component {
     this.setState({errMsg: 'Signing In...'})
     firebaseApp.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
       .then(() => {
-        this.props.goToHomeScreen();
+        this.props.goToHomeScreen()
+        setTimeout(()=> {
+          this._handleGoBack()
+        }, 1000)
       })
       .catch((error) => {
         this.setState({ errMsg: error.message })

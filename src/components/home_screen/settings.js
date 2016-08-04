@@ -7,6 +7,7 @@ import {
   Text,
   View,
   TouchableOpacity,
+  Alert,
   StyleSheet
 } from 'react-native'
 import { firebaseApp } from '../../firebase'
@@ -31,19 +32,29 @@ export default class Settings extends Component {
 
       this.setState({
         user: name,
-        email: uemail
+        email: uemail,
+        deleteErrMsg: ''
       })
     }
   }
 
   render() {
     return (
-      <TouchableOpacity style={styles.listItem} onPress={this._logOut.bind(this)}>
-        <Icon name='md-log-out' size={30} color='rgba(0,0,0,.5)' style={styles.itemIcon}/>
-        <Text style={styles.itemName}>
-          {this.state.signOutMsg}, {this.state.user}, {this.state.email}
-        </Text>
-      </TouchableOpacity>
+      <View>
+        <TouchableOpacity style={styles.listItem} onPress={this._logOut.bind(this)}>
+          <Icon name='md-log-out' size={30} color='rgba(0,0,0,.5)' style={styles.itemIcon}/>
+          <Text style={styles.itemName}>
+            {this.state.signOutMsg}
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.listItem} onPress={this._deleteAccount.bind(this)}>
+          <Icon name='md-close' size={30} color='rgba(0,0,0,.5)' style={styles.itemIcon}/>
+          <Text style={[styles.itemName, { color: 'red' }]}>
+            Delete my account
+          </Text>
+        </TouchableOpacity>
+        <Text style={{flex: 1, margin: 20}}>{this.state.deleteErrMsg}</Text>
+      </View>
     )
   }
 
@@ -51,6 +62,30 @@ export default class Settings extends Component {
     this.setState({signOutMsg: 'Signing Out...'})
     firebaseApp.auth().signOut().then(() => {
       this.props.onLogOut()
+    })
+  }
+
+  _deleteAccount() {
+    Alert.alert(
+      'Delete Account!',
+      'Are you sure to delete your account?',
+      [
+        {text: 'No', style: 'cancel'},
+        {text: 'Yes', onPress: () => this._deleteAccountConfirmed()},
+      ]
+    )
+  }
+
+  _deleteAccountConfirmed() {
+    this.setState({
+      deleteErrMsg: ''
+    })
+    firebaseApp.auth().currentUser.delete().then(() => {
+      this.props.onLogOut()
+    }).catch((error) => {
+      this.setState({
+        deleteErrMsg: error.message
+      })
     })
   }
 }
