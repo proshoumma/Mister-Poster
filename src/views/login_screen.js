@@ -13,9 +13,11 @@ import {
   StatusBar,
   StyleSheet
 } from 'react-native'
+import { connect } from 'react-redux'
 import * as Animatable from 'react-native-animatable'
 import { getColor } from '../components/config'
-
+import { signedIn } from '../actions'
+import { firebaseApp } from '../firebase'
 import HomeScreen from './home_screen'
 import Background from '../components/background'
 import LogoCircle from '../components/login_screen/logo_circle'
@@ -24,7 +26,7 @@ import SignInForm from '../components/login_screen/signIn_form'
 import SignUpForm from '../components/login_screen/signUp_form'
 import ForgotPassForm from '../components/login_screen/forgotPassword_form'
 
-export default class LoginScreen extends Component {
+class LoginScreen extends Component {
   constructor(props) {
     super(props)
 
@@ -147,6 +149,11 @@ export default class LoginScreen extends Component {
   }
 
   _onSignInSuccess() {
+    const currentUser = firebaseApp.auth().currentUser
+    const email = currentUser.email
+    const name = currentUser.displayName
+    const uid = currentUser.uid
+    this.props.signedIn(email, name, uid)
     this.props.navigator.push({ view: HomeScreen })
   }
 }
@@ -162,3 +169,5 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   }
 })
+
+export default connect(null,{signedIn})(LoginScreen)

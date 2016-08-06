@@ -1,11 +1,20 @@
-export const SIGNIN = 'signIN'
+export const SIGNEDIN = 'SIGNEDIN'
+export const SIGNEDOUT = 'SIGNEDOUT'
 
-export function signIn(email, password) {
+export function signedIn(email, name, uid) {
   return {
-    type: SIGNIN,
+    type: SIGNEDIN,
     payload: {
       email,
-      password
+      name,
+      uid
     }
+  }
+}
+
+export function signedOut() {
+  return {
+    type: SIGNEDOUT,
+    payload: {}
   }
 }

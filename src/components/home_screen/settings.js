@@ -10,10 +10,12 @@ import {
   Alert,
   StyleSheet
 } from 'react-native'
+import { connect } from 'react-redux'
 import { firebaseApp } from '../../firebase'
 import Icon from 'react-native-vector-icons/Ionicons'
+import { signedOut } from '../../actions'
 
-export default class Settings extends Component {
+class Settings extends Component {
   constructor(props) {
     super(props)
 
@@ -44,7 +46,7 @@ export default class Settings extends Component {
         <TouchableOpacity style={styles.listItem} onPress={this._logOut.bind(this)}>
           <Icon name='md-log-out' size={30} color='rgba(0,0,0,.5)' style={styles.itemIcon}/>
           <Text style={styles.itemName}>
-            {this.state.signOutMsg}
+            {this.state.signOutMsg} - {this.state.user}
           </Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.listItem} onPress={this._deleteAccount.bind(this)}>
@@ -61,7 +63,10 @@ export default class Settings extends Component {
   _logOut() {
     this.setState({signOutMsg: 'Signing Out...'})
     firebaseApp.auth().signOut().then(() => {
+      this.props.signedOut()
       this.props.onLogOut()
+    }).catch((error) => {
+      this.setState({signOutMsg: error.errorMessage})
     })
   }
 
@@ -105,3 +110,5 @@ const styles = StyleSheet.create({
     fontFamily: 'Roboto-Regular'
   }
 })
+
+export default connect(null, {signedOut})(Settings)
