@@ -9,26 +9,47 @@ import {
   View,
   StyleSheet,
   ScrollView,
+  LayoutAnimation,
+  Platform,
+  UIManager,
   RefreshControl
 } from 'react-native'
+import _ from 'lodash'
+import moment from 'moment'
 import { getColor } from '../config'
+import { firebaseApp } from '../../firebase'
 import Post from './post'
 
 export default class Timeline extends Component {
   constructor(props) {
     super(props)
 
-    this.state = {
-      isRefreshing: false
+    if (Platform.OS === 'android') {
+      UIManager.setLayoutAnimationEnabledExperimental(true)
     }
+
+    this.state = {
+      isRefreshing: false,
+      posts: null
+    }
+  }
+
+  componentDidMount() {
+    firebaseApp.database().ref('posts/').once('value').then((snapshot) => {
+      this.setState({posts: snapshot.val()})
+    })
+  }
+
+  componentDidUpdate() {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring)
   }
 
   _onRefresh() {
     this.setState({ isRefreshing: true })
 
-    setTimeout(()=>{
-      this.setState({isRefreshing: false})
-    }, 3000)
+    firebaseApp.database().ref('posts/').once('value').then((snapshot) => {
+      this.setState({posts: snapshot.val(), isRefreshing: false})
+    })
   }
 
   render() {
@@ -47,25 +68,29 @@ export default class Timeline extends Component {
           />
         }>
 
-        <Post
-        posterName={'Mister Poster'}
-        postTime={'Posted an hour ago'}
-        postContent={'This is a Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'}
-        />
-        <Post
-        posterName={'Mister Poster'}
-        postTime={'Posted an hour ago'}
-        postContent={'This is a Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'}
-        />
-        <Post
-        posterName={'Mister Poster'}
-        postTime={'Posted an hour ago'}
-        postContent={'This is a Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'}
-        />
+        {this.renderPosts()}
 
         </ScrollView>
       </View>
     )
+  }
+
+  renderPosts() {
+    const postArray = []
+    _.forEach(this.state.posts, (value, index) => {
+      const time = value.time
+      const timeString = moment(time).fromNow()
+      postArray.push(
+        <Post
+        posterName={value.name}
+        postTime={timeString}
+        postContent={value.text}
+        key={index}
+        />
+      )
+    })
+    _.reverse(postArray)
+    return postArray
   }
 }
 

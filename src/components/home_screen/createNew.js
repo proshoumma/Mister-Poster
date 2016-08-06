@@ -11,10 +11,15 @@ import {
   TouchableOpacity
 } from 'react-native'
 import { getColor } from '../config'
+import { firebaseApp } from '../../firebase'
 
 export default class CreateNew extends Component {
   constructor(props) {
     super(props)
+
+    this.state = {
+      postText: ''
+    }
   }
 
   render() {
@@ -29,14 +34,34 @@ export default class CreateNew extends Component {
           style={styles.inputField}
           underlineColorAndroid='transparent'
           placeholder='Your post...'
+          value={this.state.postText}
+          onChangeText={(text) => this.setState({ postText: text })}
           placeholderTextColor='rgba(0,0,0,.6)'
           />
         </View>
-        <TouchableOpacity style={styles.btnContainer}>
+        <TouchableOpacity style={styles.btnContainer} onPress={this._handleNewPost.bind(this)}>
           <Text style={styles.btnText}>POST</Text>
         </TouchableOpacity>
       </View>
     )
+  }
+
+  _handleNewPost() {
+    const time = Date.now()
+    const uid = firebaseApp.auth().currentUser.uid;
+    const email = firebaseApp.auth().currentUser.email;
+    firebaseApp.database().ref('users/' + uid + '/posts/').push({
+      puid: email + '-' + time,
+      time: time,
+      name: firebaseApp.auth().currentUser.displayName,
+      text: this.state.postText
+    })
+    firebaseApp.database().ref('/posts/').push({
+      puid: email + '-' + time,
+      time: time,
+      name: firebaseApp.auth().currentUser.displayName,
+      text: this.state.postText
+    })
   }
 }
 
