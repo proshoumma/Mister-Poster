@@ -121,6 +121,16 @@ export default class SignUpForm extends Component {
         displayName: this.state.displayName
       })
       .then(() => {
+        const uid = firebaseApp.auth().currentUser.uid
+        const name = firebaseApp.auth().currentUser.displayName
+        const email = firebaseApp.auth().currentUser.email
+
+        firebaseApp.database().ref('users/' + uid).set({
+          name,
+          email,
+          uid
+        })
+
         this.setState({errMsg: 'Thank you for signing up, wait for a bit to let us sign in into your account.', signUpSuccess: true})
 
         setTimeout(() => {
