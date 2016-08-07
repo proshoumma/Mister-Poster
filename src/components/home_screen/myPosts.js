@@ -7,14 +7,36 @@ import {
   Text,
   View,
   ScrollView,
+  LayoutAnimation,
+  Platform,
+  UIManager,
+  TouchableOpacity,
+  Alert,
   StyleSheet
 } from 'react-native'
+import { connect } from 'react-redux'
 import { getColor } from '../config'
+import _ from 'lodash'
+import moment from 'moment'
 import Post from './post'
+import { firebaseApp } from '../../firebase'
 
-export default class MyPosts extends Component {
+class MyPosts extends Component {
   constructor(props) {
     super(props)
+
+    this.state = {
+      posts: {},
+      postsCount: 0
+    }
+  }
+
+  componentDidMount() {
+    const userUid = this.props.currentUser.uid
+
+    firebaseApp.database().ref('/users/' + userUid + '/posts/').on('value', (snapshot) => {
+      this.setState({posts: snapshot.val(), postsCount: _.size(snapshot.val())})
+    })
   }
 
   render() {
@@ -23,12 +45,12 @@ export default class MyPosts extends Component {
         <View style={styles.profileInfoContainer}>
           <View style={styles.profileNameContainer}>
             <Text style={styles.profileName}>
-              Mister Poster
+              {this.props.currentUser.name}
             </Text>
           </View>
           <View style={styles.profileCountsContainer}>
             <Text style={styles.profileCounts}>
-              259
+              {this.state.postsCount}
             </Text>
             <Text style={styles.countsName}>
               POSTS
@@ -37,29 +59,48 @@ export default class MyPosts extends Component {
         </View>
 
         <ScrollView styles={styles.postContainer}>
-          <Post
-          posterName={'Mister Poster'}
-          postTime={'Posted an hour ago'}
-          postContent={'This is a Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'}
-          />
-          <Post
-          posterName={'Mister Poster'}
-          postTime={'Posted an hour ago'}
-          postContent={'This is a Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'}
-          />
-          <Post
-          posterName={'Mister Poster'}
-          postTime={'Posted an hour ago'}
-          postContent={'This is a Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'}
-          />
-          <Post
-          posterName={'Mister Poster'}
-          postTime={'Posted an hour ago'}
-          postContent={'This is a Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'}
-          />
+          {this.renderPosts()}
         </ScrollView>
       </View>
     )
+  }
+
+  renderPosts() {
+    const postArray = []
+    _.forEach(this.state.posts, (value, index) => {
+      const time = value.time
+      const timeString = moment(time).fromNow()
+      postArray.push(
+        <TouchableOpacity
+        onLongPress={this._handleDelete.bind(this, value.puid)}
+        key={index}
+        >
+          <Post
+          posterName={value.name}
+          postTime={timeString}
+          postContent={value.text}
+          />
+        </TouchableOpacity>
+      )
+    })
+    _.reverse(postArray)
+    return postArray
+  }
+
+  _handleDelete(puid) {
+    Alert.alert(
+      'Delete Post',
+      'Are you sure to delete the post?',
+      [
+        {text: 'Yes', onPress: () => this._deleteConfirmed(puid) },
+        {text: 'No'}
+      ]
+    )
+  }
+
+  _deleteConfirmed(puid) {
+    firebaseApp.database().ref('/posts/' + puid).remove()
+    firebaseApp.database().ref('/users/' + this.props.currentUser.uid + '/posts/' + puid).remove()
   }
 }
 
@@ -106,3 +147,10 @@ const styles = StyleSheet.create({
     color: '#ffffff'
   }
 })
+
+function mapStateToProps(state) {
+  return {
+    currentUser: state.currentUser
+  }
+}
+export default connect(mapStateToProps)(MyPosts)

@@ -50,18 +50,19 @@ export default class CreateNew extends Component {
     const time = Date.now()
     const uid = firebaseApp.auth().currentUser.uid;
     const email = firebaseApp.auth().currentUser.email;
-    firebaseApp.database().ref('users/' + uid + '/posts/').push({
-      puid: email + '-' + time,
-      time: time,
+    const newPostKey = firebase.database().ref().child('posts').push().key
+
+    const postData = {
       name: firebaseApp.auth().currentUser.displayName,
-      text: this.state.postText
-    })
-    firebaseApp.database().ref('/posts/').push({
-      puid: email + '-' + time,
       time: time,
-      name: firebaseApp.auth().currentUser.displayName,
-      text: this.state.postText
-    })
+      text: this.state.postText,
+      puid: newPostKey
+    }
+    let updates = {}
+    updates['/posts/' + newPostKey] = postData
+    updates['/users/' + uid + '/posts/' + newPostKey] = postData
+
+    firebase.database().ref().update(updates)
   }
 }
 

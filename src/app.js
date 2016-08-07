@@ -21,21 +21,17 @@ import HomeScreen from './views/home_screen'
 class App extends Component {
   constructor(props) {
     super(props)
-
-    // base route stack to render
-    // based of signed status of the user
-    if (this.props.currentUser.signInStatus) {
-      this.routes = [
-        { view: HomeScreen }
-      ]
-    } else {
-      this.routes = [
-        { view: LoginScreen }
-      ]
-    }
   }
 
   render() {
+    // base route stack to render
+    // based on signed status of the user
+    if (this.props.currentUser.signInStatus) {
+      this.routes = [{ view: HomeScreen }]
+    } else {
+      this.routes = [{ view: LoginScreen }]
+    }
+
     return (
       <Navigator
         style={{ flex: 1 }}
