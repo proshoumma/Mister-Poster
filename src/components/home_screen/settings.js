@@ -59,7 +59,6 @@ export default class Settings extends Component {
   }
 
   _logOut() {
-    this.setState({signOutMsg: 'Signing Out...'})
     this.props.onLogOut()
   }
 

@@ -8,7 +8,8 @@
 
 import React, { Component } from 'react'
 import {
-  Navigator
+  Navigator,
+  View
 } from 'react-native'
 import { connect } from 'react-redux'
 
@@ -18,27 +19,47 @@ import { connect } from 'react-redux'
 import LoginScreen from './views/login_screen'
 import HomeScreen from './views/home_screen'
 
+// import firebase to determine which view to display
+import { firebaseApp } from './firebase'
+
 class App extends Component {
   constructor(props) {
     super(props)
+
+    this.routes = [
+      { view: LoginScreen },
+      { view: HomeScreen }
+    ]
   }
 
   render() {
     // base route stack to render
     // based on signed status of the user
+    let navigator
     if (this.props.currentUser.signInStatus) {
-      this.routes = [{ view: HomeScreen }]
+      navigator =
+        <Navigator
+          style={{ flex: 1 }}
+          initialRoute={this.routes[1]}
+          initialRouteStack={this.routes}
+          renderScene={this.renderScene}
+          configureScene={this.configureScene}
+        />
     } else {
-      this.routes = [{ view: LoginScreen }]
+      navigator =
+        <Navigator
+          style={{ flex: 1 }}
+          initialRoute={this.routes[0]}
+          initialRouteStack={this.routes}
+          renderScene={this.renderScene}
+          configureScene={this.configureScene}
+        />
     }
 
     return (
-      <Navigator
-        style={{ flex: 1 }}
-        initialRouteStack={this.routes}
-        renderScene={this.renderScene}
-        configureScene={this.configureScene}
-      />
+      <View style={{flex: 1}}>
+        {navigator}
+      </View>
     )
   }
 

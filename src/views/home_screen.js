@@ -15,6 +15,7 @@ import { connect } from 'react-redux'
 import ScrollableTabView, { DefaultTabBar } from 'react-native-scrollable-tab-view'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { firebaseApp } from '../firebase'
+import LoginScreen from './login_screen'
 import { getColor } from '../components/config'
 import { signedOut } from '../actions'
 import NavigationTab from '../components/home_screen/navTab'
@@ -42,17 +43,19 @@ class HomeScreen extends Component {
           <CreateNew tabLabel="md-create"/>
           <MyPosts tabLabel="md-contact"/>
           <Settings
-          onLogOut={this._onLogOut.bind(this)}
-          tabLabel="ios-settings"/>
+          tabLabel="ios-settings"
+          onLogOut={ () => {this._onLogOut()} }
+          />
         </ScrollableTabView>
       </View>
     )
   }
 
   _onLogOut() {
-    this.props.navigator.pop()
-    firebaseApp.auth().signOut()
-    this.props.signedOut()
+    firebaseApp.auth().signOut().then(() => {
+      this.props.navigator.pop()
+      this.props.signedOut()
+    })
   }
 }
 

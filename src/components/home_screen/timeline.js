@@ -39,7 +39,7 @@ class Timeline extends Component {
     firebaseApp.database().ref('posts/').once('value').then((snapshot) => {
       // this.setState({posts: snapshot.val()})
       this.props.savePosts(snapshot.val())
-    })
+    }).catch(() => { })
 
     setTimeout(() => {
       this.setState({ updateNotification: 'Pull to refresh...' })
