@@ -78,13 +78,19 @@ export default class Settings extends Component {
     this.setState({
       deleteErrMsg: ''
     })
-    firebaseApp.auth().currentUser.delete().then(() => {
-      this.props.onLogOut()
-    }).catch((error) => {
-      this.setState({
-        deleteErrMsg: error.message
+    if (firebaseApp.auth().currentUser) {
+      firebaseApp.auth().currentUser.delete().then(() => {
+        this.props.onLogOut()
+      }).catch((error) => {
+        this.setState({
+          deleteErrMsg: error.message
+        })
       })
-    })
+    } else {
+      this.setState({
+        deleteErrMsg: 'Something went wrong!'
+      })
+    }
   }
 }
 
