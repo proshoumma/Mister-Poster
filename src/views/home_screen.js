@@ -11,16 +11,19 @@ import {
   ScrollView,
   StyleSheet
 } from 'react-native'
+import { connect } from 'react-redux'
 import ScrollableTabView, { DefaultTabBar } from 'react-native-scrollable-tab-view'
 import Icon from 'react-native-vector-icons/Ionicons'
+import { firebaseApp } from '../firebase'
 import { getColor } from '../components/config'
+import { signedOut } from '../actions'
 import NavigationTab from '../components/home_screen/navTab'
 import Timeline from '../components/home_screen/timeline'
 import CreateNew from '../components/home_screen/createNew'
 import MyPosts from '../components/home_screen/myPosts'
 import Settings from '../components/home_screen/settings'
 
-export default class HomeScreen extends Component {
+class HomeScreen extends Component {
   constructor(props) {
     super(props)
   }
@@ -48,11 +51,16 @@ export default class HomeScreen extends Component {
 
   _onLogOut() {
     this.props.navigator.pop()
+    firebaseApp.auth().signOut()
+    this.props.signedOut()
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    backgroundColor: '#ffffff'
   }
 })
+
+export default connect(null, {signedOut})(HomeScreen)

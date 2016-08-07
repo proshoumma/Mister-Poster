@@ -8,7 +8,10 @@ import {
   View,
   StyleSheet,
   TextInput,
-  TouchableOpacity
+  TouchableOpacity,
+  LayoutAnimation,
+  Platform,
+  UIManager
 } from 'react-native'
 import { getColor } from '../config'
 import { firebaseApp } from '../../firebase'
@@ -18,8 +21,17 @@ export default class CreateNew extends Component {
     super(props)
 
     this.state = {
+      postStatus: null,
       postText: ''
     }
+
+    if (Platform.OS === 'android') {
+      UIManager.setLayoutAnimationEnabledExperimental(true)
+    }
+  }
+
+  componentDidUpdate() {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring)
   }
 
   render() {
@@ -28,6 +40,7 @@ export default class CreateNew extends Component {
         <Text style={styles.title}>
           {'Create a new Post'.toUpperCase()}
         </Text>
+        <Text style={styles.message}>{this.state.postStatus}</Text>
         <View style={styles.inputContainer}>
           <TextInput
           multiline={true}
@@ -47,22 +60,38 @@ export default class CreateNew extends Component {
   }
 
   _handleNewPost() {
-    const time = Date.now()
-    const uid = firebaseApp.auth().currentUser.uid;
-    const email = firebaseApp.auth().currentUser.email;
-    const newPostKey = firebase.database().ref().child('posts').push().key
+    this.setState({
+      postStatus: 'Posting...'
+    })
 
-    const postData = {
-      name: firebaseApp.auth().currentUser.displayName,
-      time: time,
-      text: this.state.postText,
-      puid: newPostKey
+    if (this.state.postText.length > 20) {
+      const time = Date.now()
+      const uid = firebaseApp.auth().currentUser.uid;
+      const email = firebaseApp.auth().currentUser.email;
+      const newPostKey = firebase.database().ref().child('posts').push().key
+
+      const postData = {
+        name: firebaseApp.auth().currentUser.displayName,
+        time: time,
+        text: this.state.postText,
+        puid: newPostKey
+      }
+      let updates = {}
+      updates['/posts/' + newPostKey] = postData
+      updates['/users/' + uid + '/posts/' + newPostKey] = postData
+
+      firebase.database().ref().update(updates).then(() => {
+        this.setState({ postStatus: 'Posted! Thank You.' })
+      }).catch(() => {
+        this.setState({ postStatus: 'Something went wrong!!!' })
+      })
+    } else {
+      this.setState({ postStatus: 'You need to post at least 20 charecters.' })
     }
-    let updates = {}
-    updates['/posts/' + newPostKey] = postData
-    updates['/users/' + uid + '/posts/' + newPostKey] = postData
 
-    firebase.database().ref().update(updates)
+    setTimeout(() => {
+      this.setState({ postStatus: null })
+    }, 2000)
   }
 }
 
@@ -77,6 +106,11 @@ const styles = StyleSheet.create({
     fontFamily: 'Roboto-Bold',
     fontSize: 15,
     color: getColor()
+  },
+  message: {
+    textAlign: 'left',
+    paddingTop: 10,
+    paddingBottom: 0
   },
   inputContainer: {
     flex: 1,
