@@ -67,6 +67,7 @@ class SignInForm extends Component {
           style={styles.inputField}
           underlineColorAndroid='transparent'
           placeholder='Email'
+          keyboardType='email-address'
           placeholderTextColor='rgba(255,255,255,.6)'
           value={this.state.email}
           onChangeText={(text) => this.setState({ email: text })}

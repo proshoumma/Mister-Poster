@@ -1,6 +1,5 @@
 /**
  * the universal timeline
- * it's a redux container
  */
 
 import React, { Component } from 'react'
@@ -16,11 +15,13 @@ import {
 } from 'react-native'
 import _ from 'lodash'
 import moment from 'moment'
+import { connect } from 'react-redux'
+import { savePosts } from '../../actions'
 import { getColor } from '../config'
 import { firebaseApp } from '../../firebase'
 import Post from './post'
 
-export default class Timeline extends Component {
+class Timeline extends Component {
   constructor(props) {
     super(props)
 
@@ -30,14 +31,19 @@ export default class Timeline extends Component {
 
     this.state = {
       isRefreshing: false,
-      posts: null
+      updateNotification: null
     }
   }
 
   componentDidMount() {
     firebaseApp.database().ref('posts/').once('value').then((snapshot) => {
-      this.setState({posts: snapshot.val()})
+      // this.setState({posts: snapshot.val()})
+      this.props.savePosts(snapshot.val())
     })
+
+    setTimeout(() => {
+      this.setState({ updateNotification: 'Pull to refresh...' })
+    }, 10000)
   }
 
   componentDidUpdate() {
@@ -48,36 +54,53 @@ export default class Timeline extends Component {
     this.setState({ isRefreshing: true })
 
     firebaseApp.database().ref('posts/').once('value').then((snapshot) => {
-      this.setState({posts: snapshot.val(), isRefreshing: false})
+      this.props.savePosts(snapshot.val())
+      this.setState({isRefreshing: false, updateNotification: null})
     })
   }
 
   render() {
+    const notify = this.state.updateNotification ?
+    <Text style={styles.updateNotificationStyle}>
+      {this.state.updateNotification}
+    </Text>
+    : null
+
+    const view = this.props.posts ?
+      <ScrollView
+      refreshControl={
+        <RefreshControl
+          refreshing={this.state.isRefreshing}
+          onRefresh={this._onRefresh.bind(this)}
+          tintColor="#ff0000"
+          title="Loading..."
+          titleColor="#00ff00"
+          colors={[getColor()]}
+          progressBackgroundColor={getColor('#ffffff')}
+        />
+      }>
+
+      {notify}
+
+      {this.renderPosts()}
+
+      </ScrollView>
+
+    :
+    <View style={styles.waitView}>
+      <Text>Getting universal timeline...</Text>
+    </View>
+
     return (
       <View style={styles.container}>
-        <ScrollView
-        refreshControl={
-          <RefreshControl
-            refreshing={this.state.isRefreshing}
-            onRefresh={this._onRefresh.bind(this)}
-            tintColor="#ff0000"
-            title="Loading..."
-            titleColor="#00ff00"
-            colors={[getColor()]}
-            progressBackgroundColor={getColor('#ffffff')}
-          />
-        }>
-
-        {this.renderPosts()}
-
-        </ScrollView>
+        {view}
       </View>
     )
   }
 
   renderPosts() {
     const postArray = []
-    _.forEach(this.state.posts, (value, index) => {
+    _.forEach(this.props.posts, (value, index) => {
       const time = value.time
       const timeString = moment(time).fromNow()
       postArray.push(
@@ -97,6 +120,11 @@ export default class Timeline extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1
+  },
+  waitView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   card: {
     borderWidth: 1,
@@ -123,5 +151,18 @@ const styles = StyleSheet.create({
     color: 'rgba(0,0,0,.8)',
     fontFamily: 'Roboto-Regular',
     fontSize: 14
+  },
+  updateNotificationStyle: {
+    textAlign: 'center',
+    marginTop: 10,
+    paddingBottom: 5
   }
 })
+
+function mapStateToProps(state) {
+  return {
+    posts: state.posts
+  }
+}
+
+export default connect(mapStateToProps, {savePosts})(Timeline)

@@ -66,6 +66,8 @@ export default class SignUpForm extends Component {
           style={styles.inputField}
           value={this.state.displayName}
           onChangeText={(text) => this.setState({ displayName: text })}
+          autoCapitalize='words'
+          autoCorrect={false}
           underlineColorAndroid='transparent'
           placeholder='Your Name'
           placeholderTextColor='rgba(255,255,255,.6)'
@@ -75,6 +77,8 @@ export default class SignUpForm extends Component {
           <TextInput
           style={styles.inputField}
           value={this.state.email}
+          keyboardType='email-address'
+          autoCorrect={false}
           onChangeText={(text) => this.setState({ email: text })}
           underlineColorAndroid='transparent'
           placeholder='Your Email'
