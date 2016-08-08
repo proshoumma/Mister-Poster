@@ -3,7 +3,7 @@
 
 #### An Universal Timeline application where you can share your thoughts to everyone. No friendship needed!!! 
 
-[Installable APK](https://github.com/shoumma/Mister-Poster/raw/master/apk-releases/mister-poster.apk)
+Download the APK : [Installable APK](https://github.com/shoumma/Mister-Poster/raw/master/apk-releases/mister-poster.apk)
 
 ![Preview](./visual_designs/show.png)
 
@@ -13,7 +13,10 @@
  - [Redux Storage](https://github.com/michaelcontento/redux-storage) (with [async-storage engine](https://github.com/michaelcontento/redux-storage-engine-reactNativeAsyncStorage) for react native for application persistence)
  - [Firebase](https://firebase.google.com/)
 
-This is my second application using react native. I'm really enjoying the technology. My main objective of this project was to learn how to integrate react native applications with Firebase. Firebase isn't properly supported yet for react native (third party logins like google, facebook, twitter still doesn't work due to webview requirement), but it have enought support for creating amazing stand alone applications. The app is android only (I'm on a Ubuntu machine and Apple doesn't give me the freedom to create application for them). I would really appricate any suggestions, feedback, PRs and Issues.
+This is my second application using react native. I'm really enjoying the technology. My main objective of this project was to learn how to integrate react native applications with Firebase. Firebase isn't properly supported yet for react native (third party logins like google, facebook, twitter still doesn't work due to webview requirement), but it have enought support for creating amazing stand alone applications. The app is android only (I'm on a Ubuntu machine and Apple doesn't give me the freedom to create application for them). 
+
+I would really appricate any suggestions, feedback, PRs and Issues.
+
 
 ## Walkthrough
 ###Sign In / Sign Up View
@@ -21,6 +24,7 @@ This is my second application using react native. I'm really enjoying the techno
 ![Preview](./visual_designs/signIn.gif)
 
 The Sign-In/Sign-Up view is pretty straight forward. Component's own states (not the redux state) are maintained to display forms. I haved used the [LayoutAnimation](https://facebook.github.io/react-native/docs/layoutanimation.html) and [Animatable](https://github.com/oblador/react-native-animatable) almost everywhere to make things more interactive and interesting. The trick was to animate components while mounting and unmounting. I didn't add any form validation since that part is amazingly done by Firebase. I displayed the error message to the user that catches by the promises. The back-end stuffs of sign in / sign up / reset password, all are done by Firebase user authentication APIs.
+
 
 ###Home View
 
@@ -39,7 +43,9 @@ These are swipeable tabs that are created by using the library [react-native-scr
 
 The "Universal Timeline" component is a scroll view with "pull to refresh" functionality by using the [refresh control](https://facebook.github.io/react-native/docs/refreshcontrol.html). All the data are coming from Firebase NoSQL database. The next "Create New Post" component is used for creating a new post to the timeline. "Own Posts" will display own post count and own posts. Long press on any post from "Own Post" component will alert the user about deleting that post. Lastly, the "Settings" component is used to Sign Out the user or Delete account.
 
+
 ## How to create your own copy of this app?
+### Prerequisites
 To create an own copy of this application, you have some prerequisites. They are -
 
  - [NodeJS](https://nodejs.org/en/) installed on your system.
@@ -79,8 +85,10 @@ Open your emulator and wait until it completely boot up. Then run the following 
     react-native run-android
 Now, you have your own copy of this application!
 
+
 ##License
 pMIT License](https://github.com/shoumma/Mister-Poster/blob/master/LICENSE). Do whatever you want to do.
+
 
 ## Credits
 I barely create the application. I just created the front end shell and done some integration with firebase. All the credits goes to all library creators and contributors to those libraries. I'm really grateful to all of them.
@@ -98,4 +106,5 @@ I barely create the application. I just created the front end shell and done som
  - [Moment JS](http://momentjs.com/)
  - [Lodash](https://lodash.com/)
  
+
 Made with ♥ by [Provash Shoumma](https://twitter.com/pshoumma)
