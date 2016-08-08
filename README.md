@@ -87,7 +87,7 @@ Now, you have your own copy of this application!
 
 
 ##License
-pMIT License](https://github.com/shoumma/Mister-Poster/blob/master/LICENSE). Do whatever you want to do.
+[MIT License](https://github.com/shoumma/Mister-Poster/blob/master/LICENSE). Do whatever you want to do.
 
 
 ## Credits
