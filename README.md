@@ -1,7 +1,7 @@
 # Mister Poster
 ![Preview](./visual_designs/logo_small.png)
 
-#### An Universal Timeline application where you can share your thoughts to everyone. No friendship needed!!! 
+#### A social app with Universal Timeline where you can share your thoughts to everyone. No friendship needed!!! 
 
 Download the APK : [Installable APK](https://github.com/shoumma/Mister-Poster/raw/master/apk-releases/mister-poster.apk)
 
