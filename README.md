@@ -13,7 +13,7 @@ Download the APK : [Installable APK](https://github.com/shoumma/Mister-Poster/ra
  - [Redux Storage](https://github.com/michaelcontento/redux-storage) (with [async-storage engine](https://github.com/michaelcontento/redux-storage-engine-reactNativeAsyncStorage) for react native for application persistence)
  - [Firebase](https://firebase.google.com/)
 
-This is my second application using react native. I'm really enjoying the technology. My main objective of this project was to learn how to integrate react native applications with Firebase. Firebase isn't properly supported yet for react native (third party logins like google, facebook, twitter still doesn't work due to webview requirement), but it have enough support for creating amazing stand alone applications. The app is android only (I'm on a Ubuntu machine and Apple doesn't give me the freedom to create application for them). 
+This is my second application using react native. I'm really enjoying the technology. My main objective of this project was to learn how to integrate react native applications with Firebase. Firebase isn't properly supported yet for react native (third party logins like google, facebook, twitter still doesn't work due to webview requirement), but it have enough support for creating amazing stand alone applications.
 
 I would really appricate any suggestions, feedback, PRs and Issues.
 
