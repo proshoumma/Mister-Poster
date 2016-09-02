@@ -23,7 +23,7 @@ I would really appricate any suggestions, feedback, PRs and Issues.
 
 ![Preview](./visual_designs/signIn.gif)
 
-The Sign-In/Sign-Up view is pretty straight forward. Component's own states (not the redux state) are maintained to display forms. I haved used the [LayoutAnimation](https://facebook.github.io/react-native/docs/layoutanimation.html) and [Animatable](https://github.com/oblador/react-native-animatable) almost everywhere to make things more interactive and interesting. The trick was to animate components while mounting and unmounting. I didn't add any form validation since that part is amazingly done by Firebase. I displayed the error message to the user that catches by the promises. The back-end stuffs of sign in / sign up / reset password, all are done by Firebase user authentication APIs.
+The Sign-In/Sign-Up view is pretty straight forward. Component's own states (not the redux state) are maintained to display forms. I haved used the [LayoutAnimation](https://facebook.github.io/react-native/docs/layoutanimation.html) and [Animatable](https://github.com/oblador/react-native-animatable) almost everywhere to make things more interactive and interesting. The trick was to animate components while mounting and unmounting. I didn't use any form validation since that part is amazingly done by Firebase. I displayed the error message to the user that catches by the promises. The back-end stuffs of sign in / sign up / reset password, all are done by Firebase user authentication APIs.
 
 
 ###Home View
