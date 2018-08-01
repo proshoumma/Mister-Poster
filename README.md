@@ -1,7 +1,7 @@
 # Mister Poster
 ![Preview](./visual_designs/logo_small.png)
 
-#### A social app with Universal Timeline where you can share your thoughts to everyone. No friendship needed!!
+#### A very basic single feed social media application. Built on top of React-Native and Firebase real-time database with persistent local storage for user's device.
 
 Download the APK : [Installable APK](https://github.com/shoumma/Mister-Poster/raw/master/apk-releases/mister-poster.apk)
 
@@ -19,14 +19,14 @@ I would really appricate any suggestions, feedback, PRs and Issues.
 
 
 ## Walkthrough
-###Sign In / Sign Up View
+### Sign In / Sign Up View
 
 ![Preview](./visual_designs/signIn.gif)
 
 The Sign-In/Sign-Up view is pretty straight forward. Component's own states (not the redux state) are maintained to display forms. I haved used the [LayoutAnimation](https://facebook.github.io/react-native/docs/layoutanimation.html) and [Animatable](https://github.com/oblador/react-native-animatable) almost everywhere to make things more interactive and interesting. The trick was to animate components while mounting and unmounting. I didn't use any form validation since that part is amazingly done by Firebase. I displayed the error message to the user that catches by the promises. The back-end stuffs of sign in / sign up / reset password, all are done by Firebase user authentication APIs.
 
 
-###Home View
+### Home View
 
 ![Preview](./visual_designs/post.gif)
 
@@ -86,8 +86,8 @@ Open your emulator and wait until it completely boot up. Then run the following 
 Now, you have your own copy of this application!
 
 
-##License
-[MIT License](https://github.com/shoumma/Mister-Poster/blob/master/LICENSE). Do whatever you want to do.
+## License
+[MIT License](https://github.com/shoumma/Mister-Poster/blob/master/LICENSE). Anything you would like to do! 😀
 
 
 ## Credits
