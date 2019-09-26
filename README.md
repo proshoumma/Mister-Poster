@@ -107,4 +107,4 @@ I barely create the application. I just created the front end shell and done som
  - [Lodash](https://lodash.com/)
  
 
-Made with ♥ by [Provash Shoumma](https://twitter.com/pshoumma)
+Made with ♥ by [Provash Shoumma](https://twitter.com/proshoumma)
